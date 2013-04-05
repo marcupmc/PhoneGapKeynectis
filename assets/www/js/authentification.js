@@ -19,7 +19,7 @@ $(document).ready( function () {
 					alert('Veuillez entrer un identifiant et un mot de passe valide');
 				else{
 					alert('Authentification réussie ! identifiant : '+msg)
-					document.location.href="home.html?id="+msg;
+					document.location.href="home.html?id="+msg+"";
 				}
 			}
 		});
