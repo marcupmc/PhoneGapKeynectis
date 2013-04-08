@@ -3,9 +3,63 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>PhoneGap Test</title>
+
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<!--[if lt IE 9]>
+	<script type="text/javascript" src="libs/flashcanvas.js"></script>
+	<![endif]-->
+<script src="js/jSignature.min.js"></script>
+<script src="js/modernizr.js"></script>
+<script src="js/getpdf.js"></script>
+
+
+
+
+
+<style type="text/css">
+select {
+	padding: .5em;
+	margin: .5em;
+}
+
+#signatureparent {
+	color: darkblue;
+	background-color: darkgrey;
+	/*max-width:600px;*/
+	padding: 20px;
+}
+
+/*This is the div within which the signature canvas is fitted*/
+#signature {
+	border: 2px solid black;
+	background-color: lightgrey;
+}
+
+/* Drawing the 'gripper' for touch-enabled devices */
+html.touch #content {
+	float: left;
+	width: 92%;
+}
+
+html.touch #scrollgrabber {
+	float: right;
+	width: 4%;
+	margin-right: 2%;
+	background-image:
+		url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAFCAAAAACh79lDAAAAAXNSR0IArs4c6QAAABJJREFUCB1jmMmQxjCT4T/DfwAPLgOXlrt3IwAAAABJRU5ErkJggg==)
+}
+
+html.borderradius #scrollgrabber {
+	border-radius: 1em;
+}
+</style>
+
+
+
 <script type="text/javascript" src="./cordova-2.5.0.js"></script>
 <script type="text/javascript">
-
 	/** Called when phonegap javascript is loaded */
 	function onDeviceReady() {
 		document.getElementById("helloworld").innerHTML = "Hello World! Loaded PhoneGap Framework!";
@@ -24,15 +78,39 @@
 
 <body onLoad="init()">
 
+
+
 	<h3>Liste de vos documents</h3>
-	
-	
+
+
 	<ul class="nav nav-tabs nav-stacked" id="listePDF">
-	
+
 	</ul>
-	<script src="http://code.jquery.com/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/getpdf.js"></script>
+
+	<h4>Zone de signature</h4>
+	<div>
+		<div id="content">
+			<div id="signatureparent">
+
+				<div id="signature"></div>
+			</div>
+			<div id="tools"></div>
+			<div>
+				<p>Zone d'affichage : <button onclick="showSignature()" class="btn btn-primary">Afficher</button>
+				</p>
+				<div id="displayarea">
+					<div id="printPicture"></div>
+				</div>
+			</div>
+		</div>
+		<div id="scrollgrabber"></div>
+	</div>
+
+	
+
+	
+
+
 </body>
 
 </html>
