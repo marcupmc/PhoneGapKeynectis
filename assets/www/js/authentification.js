@@ -4,7 +4,7 @@ var serviceURL = "http://10.0.2.2:8080/TestRest/rest/";
 
 
 $(document).ready( function () { 
-	$("#connexionForm").submit( function() {
+	$("#connexionForm").submit( function() { 
 		var $inputs = $("#connexionForm").find("input, select, button, textarea");
 		// serialize the data in the form
 		var serializedData = $("#connexionForm").serialize();

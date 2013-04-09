@@ -17,22 +17,46 @@ $(document).ready( function () {
 	// serialize the data in the form
 	var serializedData = identifiant
 	// à la soumission du formulaire						 
-	$.ajax({ // fonction permettant de faire de l'ajax
-		type: "POST", // methode de transmission des données au fichier php
-		url: serviceURL+"importation",// url du fichier du WS
-		data: serializedData, // données à transmettre
+	$.ajax({ 
+		type: "POST", 
+		url: serviceURL+"importation",
+		data: serializedData,
 		datatype:"jsonp",
-		success: function(msg){ // si l'appel a bien fonctionné
+		success: function(msg){ 
 			var text = '';
 			var len = msg.length;
 			var pdfs  = $.parseJSON(msg)
 			listePDF = pdfs.pdf;
-
+			var firstnameUser  =pdfs.firstName;
+			var lastnameUser =  pdfs.lastName;
+			$("#title").append("Bonjour "+firstnameUser +" "+lastnameUser );
+			$("#certificationForm").append("<input type=\"hidden\" id=\"nbDoc\" name=\"nbDoc\" value=\""+listePDF.length+"\" />");
 			for(i=0;i<listePDF.length;i++)
 			{
+				var namePdf = listePDF[i].name;
+				var isCertified = listePDF[i].isCertified;
+
+				var certifiedFR;
+				var lastColumn;
+				if(!isCertified){
+					certifiedFR= "non";
+					lastColumn = "<td><input type=\"checkbox\" id=\"check"+i+"\" value=\""+listePDF[i].url+"\"/></td>";
+				}
+				else{
+					certifiedFR= "oui";
+					lastColumn = "<td><input disabled=\"disabled\" type=\"checkbox\" id=\"check"+i+"\" value=\""+listePDF[i].url+"\"/></td>";
+				}
 				var urlpdf = encodeURI("http://docs.google.com/viewer?url=" +listePDF[i].url );
-				$("#listePDF").append("<li><a href=\""+urlpdf+"\">"+listePDF[i].name+"</li>")
-			}		
+				$("#listePDF").append("<tr><td><a href=\""+urlpdf+"\">"+namePdf+"</a></td><td>"+certifiedFR+"</td>"+lastColumn+"</tr>")
+			}
+			if(pdfs.signature=="null"){	
+				$("#displayarea").append("<div id=\"message\" class=\"alert alert-info\"><p>Aucune signature enregistrée. " +
+				"Pour saisir votre signature, cliquez sur \"Editer votre signature\"</p></div>");
+			}else{
+				$("#displayarea").append("<div id=\"message\"></div>");
+				$("#printPicture").append("<img src=\"data:image/png;base64,"+pdfs.signature+"\"/>");
+			}
+
 		}
 	});
 
@@ -40,17 +64,21 @@ $(document).ready( function () {
 
 function showSignature() {
 
+	$('#myModal').modal('hide');
+
 	var toDele = document.getElementById("printPicture");
 	var parent = toDele.parentNode;
 	parent.removeChild(toDele);
 
-	$("#displayarea").append("<div id=\"printPicture\"></div>");
+	var toDele2 =document.getElementById("message");
+	var parent2 = toDele2.parentNode;
+	parent2.removeChild(toDele2);
+
+	$("#displayarea").append("<div id=\"message\"></div><div id=\"printPicture\"></div>");
 	var $sigdiv = $("#signature");
-	//	var datapair = $sigdiv.jSignature("getData", "svgbase64") ;
 	var datapair = $sigdiv.jSignature("getData", "image");
-	alert('data pair 0 : '+datapair[0]);
-	alert('data pair 1 : '+datapair[1]);
 	signatureBase64 = datapair[1];
+
 	$("#printPicture")
 	.append(
 			"<div><img src=\"data:" + datapair[0] + "," + datapair[1]+"\"/>" +
@@ -61,6 +89,13 @@ function showSignature() {
 	"</div>");
 
 }
+
+//Fonction appelée lorsque l'on clique sur le bouton "Effacer"
+function resetSignature(){
+	$("#signature").jSignature("reset");
+}
+
+//------------------------------------------------------------------------
 
 function sendSignature(){
 
@@ -85,6 +120,48 @@ function sendSignature(){
 			}
 		}
 	});
+}
+
+function certification(){
+	$("#certificationForm").submit( function() { 
+		alert('Certification en cours de développement : Bouchon');
+//		var $inputs = $("#certificationForm").find("input, select, button, textarea");
+//		// serialize the data in the form
+//		var serializedData = $("#certificationForm").serialize();
+		var nbDoc = $('#nbDoc').val();
+		var urls = new Array();
+		alert('nb doc : '+nbDoc);
+		for(i=0;i<nbDoc;i++)
+		{
+			var chk = document.getElementById("check"+i);
+			if(chk.checked){
+				alert("toto"+$("#check"+i).val());
+				urls[i]=document.getElementById("check"+i).val;
+			}
+		}
+		// à la soumission du formulaire
+		
+		alert('taille du tableau : '+urls.length);
+		var toSend = urls.toString();
+		$.ajax({ 
+			type: "POST", 
+			url: serviceURL+"certification",
+			//$(this).serialize() ??
+			data: toSend, 
+			datatype:"string",
+			success: function(msg){ // si l'appel a bien fonctionné
+				if(msg=="error") {
+					alert('La signature n a pas été enregistrée');
+				}
+				else{
+					alert( 'Sauvegarde réussie ! ');
+
+				}
+			}
+		});
+		return false;
+	});
+
 }
 
 

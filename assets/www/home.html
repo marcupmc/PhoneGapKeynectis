@@ -16,8 +16,6 @@
 
 
 
-
-
 <style type="text/css">
 select {
 	padding: .5em;
@@ -25,10 +23,11 @@ select {
 }
 
 #signatureparent {
-	color: darkblue;
+	width: 600px; color : darkblue;
 	background-color: darkgrey;
 	/*max-width:600px;*/
 	padding: 20px;
+	color: darkblue;
 }
 
 /*This is the div within which the signature canvas is fitted*/
@@ -72,32 +71,39 @@ html.borderradius #scrollgrabber {
 	}
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="css/bootstrap-responsive.css" rel="stylesheet">
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+<link href="css/style.css" rel="stylesheet" media="screen">
 </head>
 
 <body onLoad="init()">
 
 
-
+	<h2 id="title"></h2>
+	<div id="parametre">
+		<a href="#myModal" data-toggle="modal" class="btn btn-primary">Editer
+			votre signature</a>
+	</div>
 	<h3>Liste de vos documents</h3>
 
-
-	<ul class="nav nav-tabs nav-stacked" id="listePDF">
-
-	</ul>
-
-	<h4>Zone de signature</h4>
+	<form id="certificationForm" name="certificationForm">
+	<table class="table table-striped" id="listePDF">
+		<tr>
+			<th>Nom du document</th>
+			<th>Est Certifié</th>
+			<th>Sélection</th>
+		</tr>
+	</table>
+	<button type="submit" class="btn btn-success" onclick="certification()">Certifier
+		la sélection</button>
+		</form>
+		
 	<div>
 		<div id="content">
-			<div id="signatureparent">
 
-				<div id="signature"></div>
-			</div>
 			<div id="tools"></div>
+			<div></div>
 			<div>
-				<p>Zone d'affichage : <button onclick="showSignature()" class="btn btn-primary">Afficher</button>
-				</p>
+				<p>Votre Signature :</p>
 				<div id="displayarea">
 					<div id="printPicture"></div>
 				</div>
@@ -106,9 +112,28 @@ html.borderradius #scrollgrabber {
 		<div id="scrollgrabber"></div>
 	</div>
 
-	
 
-	
+	<!-- MODAL POUR EDITER LA SIGNATURE -->
+
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h3>Signer ici :</h3>
+		</div>
+		<div class="modal-body">
+
+			<div id="signatureparent">
+				<div id="signature"></div>
+			</div>
+			
+		</div>
+		<div class="modal-footer">
+			<button onclick="showSignature()" class="btn btn-primary">Afficher</button>
+			<button onclick="resetSignature()" class="btn btn-success">Effacer</button>
+		</div>
+	</div>
 
 
 </body>
