@@ -18,7 +18,8 @@ $(document).ready( function () {
 				if(msg=="error") 
 					alert('Veuillez entrer un identifiant et un mot de passe valide');
 				else{
-					alert('Authentification réussie ! identifiant : '+msg)
+					alert('Authentification réussie ! identifiant : '+msg);
+					window.localStorage.setItem("identifiant", msg);
 					document.location.href="home.html?id="+msg+"";
 				}
 			}

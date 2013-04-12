@@ -83,6 +83,10 @@ html.borderradius #scrollgrabber {
 		<a href="#myModal" data-toggle="modal" class="btn btn-primary">Editer
 			votre signature</a>
 	</div>
+	<div>
+		<button  onclick="deconnexion()" id="deconnexion" class="btn btn-danger">Se Deconnecter</button>
+	</div>
+	
 	<h3>Liste de vos documents</h3>
 
 	<form id="certificationForm" name="certificationForm">
@@ -93,7 +97,7 @@ html.borderradius #scrollgrabber {
 			<th>Sélection</th>
 		</tr>
 	</table>
-	<button type="submit" class="btn btn-success" onclick="certification()">Certifier
+	<button type="submit" class="btn btn-success" id="certifier" onclick="certification()">Certifier
 		la sélection</button>
 		</form>
 		
@@ -135,6 +139,12 @@ html.borderradius #scrollgrabber {
 		</div>
 	</div>
 
+<!-- Pour envoyer le blob -->
+<form id="myForm" method="POST"
+		action="https://keynectis.kwebsign.net/QS/Page1V2">
+		<input type="hidden" name="appid" value="ZZDEMAV1"> 
+		<input type="hidden" name="blob" id="blob" value="">
+	</form>
 
 </body>
 
