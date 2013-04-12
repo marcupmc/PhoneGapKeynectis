@@ -4,7 +4,7 @@ var serviceURL = "http://10.0.2.2:8080/TestRest/rest/";
 var listePDF;
 var signatureBase64;
 var identifiant; 
-var identidiant2;
+var identidiant2; 
 
 //Variables keynectis
 var blob;
@@ -24,7 +24,7 @@ $(document).ready( function () {
 
 		var temp =location.search.split("=");
 		identifiant = unescape(temp[1]);
-
+ 
 		// serialize the data in the form
 		var serializedData = identifiant
 		// à la soumission du formulaire						 
@@ -72,7 +72,7 @@ $(document).ready( function () {
 			}
 		});
 	}
-});
+}); 
 
 function showSignature() {
 
@@ -137,55 +137,56 @@ function sendSignature(){
 
 function certification(){
 	$("#certificationForm").submit( function() { 
-		document.location.href="http://10.0.2.2:8080/TestRest/CertifierDocument";
-		return false;
-//		alert('Debut');
-//		var nbDoc = $('#nbDoc').val();
-//		var toSend="{\"identifiant\" :\""+identifiant+"\",\"pdfs\" :[";
-//		var nbChecked=0
-//
-//		for(i=0;i<nbDoc;i++)
-//		{
-//			var chk = document.getElementById("check"+i);
-//			if(chk.checked){
-//				if(nbChecked>0)
-//				{
-//					toSend+=",";
-//				} 
-//				nbChecked++;
-//				toSend += "{\"url\" : \""+$("#check"+i).val()+"\"}";
-//			}
-//		}
-//		toSend +="],\"nbDoc\" : \""+nbChecked+"\"}";
-////		if(nbChecked==0){
-////		alert('Aucun document n''a été sélectionné');
-////		}else{
-//		// à la soumission du formulaire
-//		nbChecked=0;
-//		var jsonobj = $.parseJSON(toSend);
-//		$.ajax({ 
-//			type: "POST", 
-//			url: serviceURL+"certification",
-//			data: jsonobj, 
-//			datatype:"string",
-//			success: function(msg){ // si l'appel a bien fonctionné
-////				if(msg=="error") {
-////					alert('La signature n a pas été enregistrée');
-////				}
-////				else{
-//					//si ça se passe bien on recupere le blob et les autres variables et on appel send to Keynectis
-//					alert( 'Sauvegarde réussie ! ');
-//					var reponse = $.parseJSON(msg);
-//					blob= reponse.blob;
-//					sendToKeynectis();
-//				//}
-//			}
-//		});
-//		//}
-//		//document.location.href="home.html?id="+identifiant+"";
+//		document.location.href="http://10.0.2.2:8080/TestRest/CertifierDocument";
 //		return false;
+		alert('Debut');
+		var nbDoc = $('#nbDoc').val();
+		var toSend="{\"identifiant\" :\""+identifiant+"\",\"pdfs\" :[";
+		var nbChecked=0
+
+		for(i=0;i<nbDoc;i++)
+		{
+			var chk = document.getElementById("check"+i);
+			if(chk.checked){
+				if(nbChecked>0)
+				{
+					toSend+=",";
+				} 
+				nbChecked++;
+				toSend += "{\"url\" : \""+$("#check"+i).val()+"\"}";
+			}
+		}
+		toSend +="],\"nbDoc\" : \""+nbChecked+"\"}";
+//		if(nbChecked==0){
+//		alert('Aucun document n''a été sélectionné');
+//		}else{
+		// à la soumission du formulaire
+		nbChecked=0;
+		var jsonobj = $.parseJSON(toSend);
+		$.ajax({ 
+			type: "POST", 
+			url: serviceURL+"certification",
+			data: jsonobj, 
+			datatype:"string",
+			success: function(msg){ // si l'appel a bien fonctionné
+//				if(msg=="error") {
+//					alert('La signature n a pas été enregistrée');
+//				}
+//				else{
+					//si ça se passe bien on recupere le blob et les autres variables et on appel send to Keynectis
+					alert( 'Sauvegarde réussie ! ');
+					//var reponse = $.parseJSON(msg);
+					//blob= reponse.blob;
+					blob=msg
+					sendToKeynectis();
+				//}
+			}
+		});
+		//}
+		//document.location.href="home.html?id="+identifiant+"";
+		return false;
 	});
-}
+}  
 
 function  deconnexion(){
 	window.localStorage.setItem("identifiant",-1);
@@ -194,9 +195,11 @@ function  deconnexion(){
 }
 
 function sendToKeynectis(){
-	var elem = $("#blob");
-	elem.val = blob;
 	//alert("voici le blob \n : "+blob);
+	var elem = $("#blob");
+	elem.val(blob);
+	//alert($("#blob").val());
+	 
 	document.getElementById("myForm").submit();
 	
 }
