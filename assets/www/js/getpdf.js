@@ -11,7 +11,6 @@ var blob;
 
 
 $(document).ready( function () { 
-
 	if(window.localStorage.getItem("identifiant")==-1){
 		alert('Veuillez vous authentifier');
 		document.location.href="index.html";
@@ -24,7 +23,7 @@ $(document).ready( function () {
 
 		var temp =location.search.split("=");
 		identifiant = unescape(temp[1]);
- 
+
 		// serialize the data in the form
 		var serializedData = identifiant
 		// à la soumission du formulaire						 
@@ -139,55 +138,60 @@ function certification(){
 	$("#certificationForm").submit( function() { 
 //		document.location.href="http://10.0.2.2:8080/TestRest/CertifierDocument";
 //		return false;
-		alert('Debut');
 		var nbDoc = $('#nbDoc').val();
-		var toSend="{\"identifiant\" :\""+identifiant+"\",\"pdfs\" :[";
-		var nbChecked=0
-
+//		var toSend="{\"identifiant\" :\""+identifiant+"\",\"pdfs\" :[";
+//		var nbChecked=0
+//
+		var urlTosend;
 		for(i=0;i<nbDoc;i++)
 		{
 			var chk = document.getElementById("check"+i);
 			if(chk.checked){
-				if(nbChecked>0)
-				{
-					toSend+=",";
-				} 
-				nbChecked++;
-				toSend += "{\"url\" : \""+$("#check"+i).val()+"\"}";
+//				if(nbChecked>0)
+//				{
+//					toSend+=",";
+//				} 
+//				nbChecked++;
+				//toSend += "{\"url\" : \""+$("#check"+i).val()+"\"}";
+				urlTosend = $("#check"+i).val();
 			}
 		}
-		toSend +="],\"nbDoc\" : \""+nbChecked+"\"}";
-//		if(nbChecked==0){
-//		alert('Aucun document n''a été sélectionné');
-//		}else{
-		// à la soumission du formulaire
-		nbChecked=0;
-		var jsonobj = $.parseJSON(toSend);
-		$.ajax({ 
-			type: "POST", 
-			url: serviceURL+"certification",
-			data: jsonobj, 
-			datatype:"string",
-			success: function(msg){ // si l'appel a bien fonctionné
-//				if(msg=="error") {
-//					alert('La signature n a pas été enregistrée');
-//				}
-//				else{
-					//si ça se passe bien on recupere le blob et les autres variables et on appel send to Keynectis
-					alert( 'Sauvegarde réussie ! ');
-					//var reponse = $.parseJSON(msg);
-					//blob= reponse.blob;
-					blob=msg
-					sendToKeynectis();
-				//}
-			}
-		});
+//		toSend +="],\"nbDoc\" : \""+nbChecked+"\"}";
+////		if(nbChecked==0){
+////		alert('Aucun document n''a été sélectionné');
+////		}else{
+//		// à la soumission du formulaire
+//		nbChecked=0;
+//		var jsonobj = $.parseJSON(toSend);
+//		$.ajax({ 
+//			type: "POST", 
+//			url: serviceURL+"certification",
+//			data: jsonobj, 
+//			datatype:"string",
+//			success: function(msg){ // si l'appel a bien fonctionné
+////				if(msg=="error") {
+////				alert('La signature n a pas été enregistrée');
+////				}
+////				else{
+//				//si ça se passe bien on recupere le blob et les autres variables et on appel send to Keynectis
+//				//var reponse = $.parseJSON(msg);
+//				//blob= reponse.blob;
+//				blob=msg
+//				sendToKeynectis();
+//				//}
+//			}
+//		});
 		//}
 		//document.location.href="home.html?id="+identifiant+"";
+		
+		//Ajout
+		alert("to send : "+urlTosend)
+		document.location.href="traitement.html?url="+urlTosend;
+		
 		return false;
 	});
 }  
-
+ 
 function  deconnexion(){
 	window.localStorage.setItem("identifiant",-1);
 	alert('Deconnexion réussie !');
@@ -195,13 +199,44 @@ function  deconnexion(){
 }
 
 function sendToKeynectis(){
-	//alert("voici le blob \n : "+blob);
-	var elem = $("#blob");
-	elem.val(blob);
-	//alert($("#blob").val());
-	 
-	document.getElementById("myForm").submit();
-	
+		//Avant
+//	var elem = $("#blob");
+//	elem.val(blob);
+	//document.getElementById("myForm").submit();
+
+	//Apres
+	//document.location.href="traitement.html?blob="+blob+"";
+	document.location.href="traitement.html";
+}
+
+function callRestToTemporisation(){
+//	$.ajax({ 
+//	type: "GET", 
+//	url:"http://10.0.2.2:8080/TestRest/CertifierDocument",
+//	data:"",
+//	datatype:"json",
+//	async: true,
+//	success: function(msg){
+//	});
+	console.log("TEST");
+	alert('GO');
+	$.ajax({ 
+		type: "POST", 
+		url: serviceURL+"temporisation",
+		data: "toto", 
+//		async:true,
+		datatype:"string",
+		success: function(msg){
+			console.log('hello??');
+			window.plugins.childBrowser.close();
+			document.location.href="home.html?id="+identifiant+"";
+		}
+	});
+	return false;
+}
+
+function submitMethode1(){
+	$("#formMethode1").submit();
 }
 
 

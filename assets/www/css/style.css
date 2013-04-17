@@ -56,6 +56,17 @@ body {
 	margin-bottom: 10px;
 }
 
+#logo_keynectis{
+	text-align: right;
+	
+	margin-bottom: 10px;
+}
+
+#logok{
+	height: 85px;
+	width: 300px;
+}
+
 #deconnexion{
 	margin-top: -40px;
 }

@@ -5,16 +5,19 @@
 <title>PhoneGap Test</title>
 
 <script src="http://code.jquery.com/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
 
-<!--[if lt IE 9]>
+<script type="text/javascript" src="./cordova-2.5.0.js"></script>
+
+<script src="js/bootstrap.min.js"></script>      
+
+<!--[if lt IE 9]> 
 	<script type="text/javascript" src="libs/flashcanvas.js"></script>
 	<![endif]-->
 <script src="js/jSignature.min.js"></script>
 <script src="js/modernizr.js"></script>
 <script src="js/getpdf.js"></script>
 
-
+ 
 
 <style type="text/css">
 select {
@@ -23,7 +26,8 @@ select {
 }
 
 #signatureparent {
-	width: 600px; color : darkblue;
+	width: 600px;
+	color: darkblue;
 	background-color: darkgrey;
 	/*max-width:600px;*/
 	padding: 20px;
@@ -57,11 +61,10 @@ html.borderradius #scrollgrabber {
 
 
 
-<script type="text/javascript" src="./cordova-2.5.0.js"></script>
 <script type="text/javascript">
 	/** Called when phonegap javascript is loaded */
 	function onDeviceReady() {
-		document.getElementById("helloworld").innerHTML = "Hello World! Loaded PhoneGap Framework!";
+	//	document.getElementById("helloworld").innerHTML = "Hello World! Loaded PhoneGap Framework!";
 		console.log("###################################");
 	}
 
@@ -84,23 +87,24 @@ html.borderradius #scrollgrabber {
 			votre signature</a>
 	</div>
 	<div>
-		<button  onclick="deconnexion()" id="deconnexion" class="btn btn-danger">Se Deconnecter</button>
+		<button onclick="deconnexion()" id="deconnexion"
+			class="btn btn-danger">Se Deconnecter</button>
 	</div>
-	
+
 	<h3>Liste de vos documents</h3>
 
 	<form id="certificationForm" name="certificationForm">
-	<table class="table table-striped" id="listePDF">
-		<tr>
-			<th>Nom du document</th>
-			<th>Est Certifié</th>
-			<th>Sélection</th>
-		</tr>
-	</table>
-	<button type="submit" class="btn btn-success" id="certifier" onclick="certification()">Certifier
-		la sélection</button>
-		</form>
-		
+		<table class="table table-striped" id="listePDF">
+			<tr>
+				<th>Nom du document</th>
+				<th>Est Certifié</th>
+				<th>Sélection</th>
+			</tr>
+		</table>
+		<button type="submit" class="btn btn-success" id="certifier"
+			onclick="certification()">Certifier la sélection</button>
+	</form>
+
 	<div>
 		<div id="content">
 
@@ -131,19 +135,29 @@ html.borderradius #scrollgrabber {
 			<div id="signatureparent">
 				<div id="signature"></div>
 			</div>
-			
+
 		</div>
 		<div class="modal-footer">
 			<button onclick="showSignature()" class="btn btn-primary">Afficher</button>
 			<button onclick="resetSignature()" class="btn btn-success">Effacer</button>
 		</div>
 	</div>
+	
+	
 
-<!-- Pour envoyer le blob -->
-<form id="myForm" method="POST"
-		action="https://keynectis.kwebsign.net/QS/Page1V2">
-		<input type="hidden" name="appid" value="ZZDEMAV1"> 
-		<input type="hidden" name="blob" id="blob" >
+	<!-- <form method="GET" action=""> -->
+	
+ 
+<!-- 	<button onclick="callRestToTemporisation()" class="btn btn-warning" -->
+<!-- 		type="submit">TEST2</button> -->
+
+<!-- 	<button onclick="submitMethode1()" class="btn btn-alert" type="submit">TEST</button> -->
+
+	
+<!-- 	Methode1 -->
+	<form method="get"
+		action="http://10.0.2.2:8080/TestRest/CertifierDocument" id="formMethode1">
+		
 	</form>
 
 </body>
