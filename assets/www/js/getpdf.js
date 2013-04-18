@@ -48,13 +48,15 @@ $(document).ready( function () {
 
 					var certifiedFR;
 					var lastColumn;
+					var urlTemp =encodeURI(listePDF[i].url);
+					
 					if(!isCertified){
 						certifiedFR= "non";
-						lastColumn = "<td><input type=\"checkbox\" id=\"check"+i+"\" value=\""+listePDF[i].url+"\"/></td>";
+						lastColumn = "<td><input type=\"checkbox\" id=\"check"+i+"\" name=\""+urlTemp+"\" value=\""+listePDF[i].id+"\"/></td>";
 					}
 					else{
 						certifiedFR= "oui";
-						lastColumn = "<td><input disabled=\"disabled\" type=\"checkbox\" id=\"check"+i+"\" value=\""+listePDF[i].url+"\"/></td>";
+						lastColumn = "<td><input disabled=\"disabled\" type=\"checkbox\" id=\"check"+i+"\" name=\""+urlTemp+"\" value=\""+listePDF[i].id+"\"/></td>";
 					}
 					var urlpdf = encodeURI("http://docs.google.com/viewer?url=" +listePDF[i].url );
 					$("#listePDF").append("<tr><td><a href=\""+urlpdf+"\">"+namePdf+"</a></td><td>"+certifiedFR+"</td>"+lastColumn+"</tr>")
@@ -142,7 +144,8 @@ function certification(){
 //		var toSend="{\"identifiant\" :\""+identifiant+"\",\"pdfs\" :[";
 //		var nbChecked=0
 //
-		var urlTosend;
+		var idTosend;
+		var urlToSend;
 		for(i=0;i<nbDoc;i++)
 		{
 			var chk = document.getElementById("check"+i);
@@ -153,40 +156,13 @@ function certification(){
 //				} 
 //				nbChecked++;
 				//toSend += "{\"url\" : \""+$("#check"+i).val()+"\"}";
-				urlTosend = $("#check"+i).val();
+				idTosend = $("#check"+i).val();
+			//	urlToSend  = $("#check"+i).attr('name');
+				urlToSend = document.getElementById("check"+i).getAttribute("name");
 			}
 		}
-//		toSend +="],\"nbDoc\" : \""+nbChecked+"\"}";
-////		if(nbChecked==0){
-////		alert('Aucun document n''a été sélectionné');
-////		}else{
-//		// à la soumission du formulaire
-//		nbChecked=0;
-//		var jsonobj = $.parseJSON(toSend);
-//		$.ajax({ 
-//			type: "POST", 
-//			url: serviceURL+"certification",
-//			data: jsonobj, 
-//			datatype:"string",
-//			success: function(msg){ // si l'appel a bien fonctionné
-////				if(msg=="error") {
-////				alert('La signature n a pas été enregistrée');
-////				}
-////				else{
-//				//si ça se passe bien on recupere le blob et les autres variables et on appel send to Keynectis
-//				//var reponse = $.parseJSON(msg);
-//				//blob= reponse.blob;
-//				blob=msg
-//				sendToKeynectis();
-//				//}
-//			}
-//		});
-		//}
-		//document.location.href="home.html?id="+identifiant+"";
-		
 		//Ajout
-		alert("to send : "+urlTosend)
-		document.location.href="traitement.html?url="+urlTosend;
+		document.location.href="traitement.html?idDoc="+idTosend+"&url="+urlToSend;
 		
 		return false;
 	});
