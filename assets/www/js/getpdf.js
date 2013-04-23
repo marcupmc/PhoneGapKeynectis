@@ -100,7 +100,7 @@ function showSignature() {
 			"<input type=\"hidden\" id=\"imgSignature\" name=\"imgSignature\" value="+signatureBase64+" />"+
 			"</form><button id=\"button_send\" onclick=\"sendSignature()\" class=\"btn btn-info\">Enregistrer</button>" +
 	"</div>");
-	document.getElementById("certifier").style.display="inline";
+	
 
 }
 
@@ -113,6 +113,7 @@ function resetSignature(){
 
 function sendSignature(){
 
+	document.getElementById("certifier").style.display="inline";
 	document.getElementById("button_send").style.display="none";
 	var $inputs = $("#sendSign").find("input, select, button, textarea");
 	// serialize the data in the form
@@ -213,6 +214,10 @@ function callRestToTemporisation(){
 
 function submitMethode1(){
 	$("#formMethode1").submit();
+}
+
+function actualiser(){
+	document.location.href="home.html?id="+identifiant+"";
 }
 
 
