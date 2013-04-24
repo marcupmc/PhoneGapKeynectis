@@ -1,5 +1,7 @@
-//Permet de recuperer la liste des adresses correspondant au client
 
+//----------------Variables--------------------------------------------------------------------------------------------------------------------------------------------
+
+//A modifier par l'adresse réelle du serveur
 var serviceURL = "http://10.0.2.2:8080/TestRest/rest/";
 var listePDF;
 var signatureBase64;
@@ -9,7 +11,9 @@ var identidiant2;
 //Variables keynectis
 var blob;
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+// Au lancement de la page
 $(document).ready( function () { 
 	if(window.localStorage.getItem("identifiant")==-1){
 		alert('Veuillez vous authentifier');
@@ -75,6 +79,9 @@ $(document).ready( function () {
 	}
 }); 
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Permet d'afficher la signature
 function showSignature() {
 
 	$('#myModal').modal('hide');
@@ -104,13 +111,16 @@ function showSignature() {
 
 }
 
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 //Fonction appelée lorsque l'on clique sur le bouton "Effacer"
 function resetSignature(){
 	$("#signature").jSignature("reset");
 }
 
-//------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+//Permet d'envoyer l'image de la signature au serveur
 function sendSignature(){
 
 	document.getElementById("certifier").style.display="inline";
@@ -137,87 +147,44 @@ function sendSignature(){
 	});
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Envoie l'id du document et l'url a la page de traitement.html
 function certification(){
 	$("#certificationForm").submit( function() { 
-//		document.location.href="http://10.0.2.2:8080/TestRest/CertifierDocument";
-//		return false;
 		var nbDoc = $('#nbDoc').val();
-//		var toSend="{\"identifiant\" :\""+identifiant+"\",\"pdfs\" :[";
-//		var nbChecked=0
-//
 		var idTosend;
 		var urlToSend;
 		for(i=0;i<nbDoc;i++)
 		{
 			var chk = document.getElementById("check"+i);
 			if(chk.checked){
-//				if(nbChecked>0)
-//				{
-//					toSend+=",";
-//				} 
-//				nbChecked++;
-				//toSend += "{\"url\" : \""+$("#check"+i).val()+"\"}";
 				idTosend = $("#check"+i).val();
-			//	urlToSend  = $("#check"+i).attr('name');
 				urlToSend = document.getElementById("check"+i).getAttribute("name");
 			}
 		}
-		//Ajout
 		document.location.href="traitement.html?idDoc="+idTosend+"&url="+urlToSend;
-		
 		return false;
 	});
 }  
  
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Permet de déconnecter l'utilisateur
 function  deconnexion(){
 	window.localStorage.setItem("identifiant",-1);
 	alert('Deconnexion réussie !');
 	document.location.href="index.html";
 }
 
-function sendToKeynectis(){
-		//Avant
-//	var elem = $("#blob");
-//	elem.val(blob);
-	//document.getElementById("myForm").submit();
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	//Apres
-	//document.location.href="traitement.html?blob="+blob+"";
-	document.location.href="traitement.html";
-}
-
-function callRestToTemporisation(){
-//	$.ajax({ 
-//	type: "GET", 
-//	url:"http://10.0.2.2:8080/TestRest/CertifierDocument",
-//	data:"",
-//	datatype:"json",
-//	async: true,
-//	success: function(msg){
-//	});
-	console.log("TEST");
-	alert('GO');
-	$.ajax({ 
-		type: "POST", 
-		url: serviceURL+"temporisation",
-		data: "toto", 
-//		async:true,
-		datatype:"string",
-		success: function(msg){
-			console.log('hello??');
-			window.plugins.childBrowser.close();
-			document.location.href="home.html?id="+identifiant+"";
-		}
-	});
-	return false;
-}
-
-function submitMethode1(){
-	$("#formMethode1").submit();
-}
-
+//Permet d'actualiser la page
 function actualiser(){
 	document.location.href="home.html?id="+identifiant+"";
 }
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
